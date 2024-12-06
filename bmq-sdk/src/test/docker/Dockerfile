@@ -3,6 +3,8 @@ FROM ${image}
 
 ENV BMQ_DOCKER_TMPDIR=/tmp/bmq-broker
 
+RUN mkdir -p /tmp/cores
+
 COPY config/ /etc/local/bmq/
 
 EXPOSE 30114

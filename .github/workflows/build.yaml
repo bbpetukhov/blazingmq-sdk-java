@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - main
+      - '**'
   pull_request:
     branches:
       - main
@@ -81,17 +81,35 @@ jobs:
       working-directory: bmq-sdk/src/test/docker
       run: docker build --tag bmq-broker-java-it --build-arg "image=bmqbrkr:latest" .
 
+    - name: Setup Core Dumps config
+      run: |
+        sudo mkdir /tmp/cores
+        sudo chmod 777 /tmp/cores
+        echo "/tmp/cores/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
+
     - name: Build and run integration tests with Maven
       timeout-minutes: 120
-      run: mvn --batch-mode -DskipUnitTests=true -Dspotbugs.skip=true -Dit.dockerImage=bmqbrkr:latest verify
+      run: |
+        # Allow core dumps
+        ulimit -c unlimited
+
+        mvn --batch-mode -DskipUnitTests=true -Dspotbugs.skip=true -Dit.dockerImage=bmqbrkr:latest verify
+
+    - name: Upload broker core dump as artifacts
+      # if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: core_dumps
+        path: /cores
+        retention-days: 5
 
     - name: Compress collected broker logs
-      if: failure()
+      # if: failure()
       working-directory: /tmp/bmq-broker
       run: tar -zcvf broker_logs.tar.gz /tmp/bmq-broker/bmq-broker-java-it*
 
     - name: Upload broker logs as artifacts
-      if: failure()
+      # if: failure()
       uses: actions/upload-artifact@v3
       with:
         name: broker_logs_${{ matrix.java }}
