@@ -8,7 +8,14 @@ RUN mkdir -p /tmp/cores
 COPY config/ /etc/local/bmq/
 
 EXPOSE 30114
+ 
+RUN echo "/usr/local/bin/bmqbrkr /etc/local/bmq &" > /tmp/startup.sh
+RUN echo "BROKER_PID=$!" >> /tmp/startup.sh
+RUN echo "sleep 30" >> /tmp/startup.sh
+RUN echo "kill -QUIT $BROKER_PID" >> /tmp/startup.sh
+RUN chmod +x /tmp/startup.sh
+CMD ["/tmp/startup.sh"]
 
-CMD [ "/usr/local/bin/bmqbrkr"  \
-    , "/etc/local/bmq"          \
-    ]
+# CMD [ "/usr/local/bin/bmqbrkr"  \
+#     , "/etc/local/bmq"          \
+#     ]

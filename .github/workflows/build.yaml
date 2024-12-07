@@ -97,6 +97,7 @@ jobs:
 
     - name: Upload broker core dump as artifacts
       # if: failure()
+      if: always() 
       uses: actions/upload-artifact@v4
       with:
         name: core_dumps
@@ -105,11 +106,13 @@ jobs:
 
     - name: Compress collected broker logs
       # if: failure()
+      if: always() 
       working-directory: /tmp/bmq-broker
       run: tar -zcvf broker_logs.tar.gz /tmp/bmq-broker/bmq-broker-java-it*
 
     - name: Upload broker logs as artifacts
       # if: failure()
+      if: always() 
       uses: actions/upload-artifact@v3
       with:
         name: broker_logs_${{ matrix.java }}
