@@ -95,6 +95,12 @@ jobs:
 
         mvn --batch-mode -DskipUnitTests=true -Dspotbugs.skip=true -Dit.dockerImage=bmqbrkr:latest verify
 
+    - name: Check /tmp contents
+      timeout-minutes: 120
+      run: |
+        ls -lah /tmp
+        ls -lah /tmp/cores
+
     - name: Upload broker core dump as artifacts
       # if: failure()
       if: always() 
