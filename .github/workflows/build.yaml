@@ -96,7 +96,8 @@ jobs:
         mvn --batch-mode -DskipUnitTests=true -Dspotbugs.skip=true -Dit.dockerImage=bmqbrkr:latest verify
 
     - name: Check /tmp contents
-      timeout-minutes: 120
+      if: always() 
+  
       run: |
         ls -lah /tmp
         ls -lah /tmp/cores

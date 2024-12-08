@@ -15,6 +15,7 @@ RUN echo "BROKER_PID=$!" >> /tmp/startup.sh
 RUN echo "sleep 5" >> /tmp/startup.sh
 RUN echo "kill -QUIT $BROKER_PID" >> /tmp/startup.sh
 RUN echo "sleep 5" >> /tmp/startup.sh
+RUN echo "cat /proc/sys/kernel/core_pattern" >> /tmp/startup.sh
 RUN echo "ls -lah /tmp/cores" >> /tmp/startup.sh
 RUN chmod +x /tmp/startup.sh
 CMD ["/tmp/startup.sh"]
