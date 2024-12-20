@@ -4,6 +4,7 @@ FROM ${image}
 ENV BMQ_DOCKER_TMPDIR=/tmp/bmq-broker
 
 RUN mkdir -p /tmp/cores && chmod 777 /tmp/cores
+RUN echo "Hello, World!" > /tmp/cores/my-new-file.txt
 
 COPY config/ /etc/local/bmq/
 
