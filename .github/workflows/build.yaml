@@ -85,6 +85,7 @@ jobs:
       run: |
         sudo mkdir /tmp/cores
         sudo chmod 777 /tmp/cores
+        echo "test content" > /tmp/cores/test.txt
         echo "/tmp/cores/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
 
     - name: Build and run integration tests with Maven
