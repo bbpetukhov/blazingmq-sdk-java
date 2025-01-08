@@ -14,7 +14,7 @@ RUN echo "/usr/local/bin/bmqbrkr /etc/local/bmq &" > /tmp/startup.sh
 # RUN echo "sleep 12345 &" > /tmp/startup.sh
 
 RUN echo "BROKER_PID=$!" >> /tmp/startup.sh
-RUN echo "sleep 5" >> /tmp/startup.sh
+RUN echo "sleep 15" >> /tmp/startup.sh
 RUN echo "kill -QUIT $BROKER_PID" >> /tmp/startup.sh
 RUN echo "sleep 5" >> /tmp/startup.sh
 RUN echo "cat /proc/sys/kernel/core_pattern" >> /tmp/startup.sh

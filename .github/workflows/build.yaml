@@ -83,7 +83,6 @@ jobs:
 
     - name: Setup Core Dumps config
       run: |
-        echo "test content" > /tmp/bmq-broker/test.txt
         echo "/tmp/bmq-broker/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
 
     - name: Build and run integration tests with Maven
