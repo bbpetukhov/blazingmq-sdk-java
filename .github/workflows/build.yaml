@@ -83,10 +83,8 @@ jobs:
 
     - name: Setup Core Dumps config
       run: |
-        sudo mkdir /tmp/cores
-        sudo chmod 777 /tmp/cores
-        echo "test content" > /tmp/cores/test.txt
-        echo "/tmp/cores/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
+        echo "test content" > /tmp/bmq-broker/test.txt
+        echo "/tmp/bmq-broker/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
 
     - name: Build and run integration tests with Maven
       timeout-minutes: 120
@@ -101,7 +99,7 @@ jobs:
   
       run: |
         ls -lah /tmp
-        ls -lah /tmp/cores
+        ls -lah /tmp/bmq-broker
 
     - name: Upload broker core dump as artifacts
       # if: failure()
@@ -109,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: core_dumps
-        path: /tmp/cores
+        path: /tmp/bmq-broker
         retention-days: 5
 
     - name: Compress collected broker logs

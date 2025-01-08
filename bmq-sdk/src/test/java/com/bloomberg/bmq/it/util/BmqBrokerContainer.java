@@ -48,7 +48,6 @@ public class BmqBrokerContainer implements BmqBroker {
     private static final Logger logger =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String CONTAINER_TMP_LOGS = "/tmp/logs";
-    private static final String CONTAINER_CORES = "/tmp/cores";
     private static final String IMAGE_NAME = "bmq-broker-java-it";
     private static final String OUTPUT_FILENAME = "output.log";
 
@@ -88,10 +87,8 @@ public class BmqBrokerContainer implements BmqBroker {
 
         final Path tmpDir = makeTempDir(name);
         final Path hostLogsPath = tmpDir.resolve("logs");
-        final Path hostCoresPath = Paths.get("/tmp/cores");
 
         logger.info("Use '{}' directory for broker logs", hostLogsPath);
-        logger.info("Use '{}' directory for broker cores", hostCoresPath);
 
         final PortBinding portBinding =
                 PortBinding.parse(opts.brokerUri().getPort() + ":" + BROKER_DEFAULT_PORT);
@@ -100,8 +97,7 @@ public class BmqBrokerContainer implements BmqBroker {
         final HostConfig hostConfig =
                 new HostConfig()
                         .withPortBindings(portBinding)
-                        .withBinds(Bind.parse(hostLogsPath + ":" + CONTAINER_TMP_LOGS))
-                        .withBinds(Bind.parse(hostCoresPath + ":" + CONTAINER_CORES));
+                        .withBinds(Bind.parse(hostLogsPath + ":" + CONTAINER_TMP_LOGS));
 
         final String id =
                 client.createContainerCmd(IMAGE_NAME)
