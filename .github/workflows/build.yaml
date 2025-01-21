@@ -83,7 +83,7 @@ jobs:
 
     - name: Setup Core Dumps config
       run: |
-        echo "/tmp/bmq-broker/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
+        echo "/tmp/logs/%e.%p.%s.%t" | sudo tee /proc/sys/kernel/core_pattern
 
     - name: Build and run integration tests with Maven
       timeout-minutes: 120

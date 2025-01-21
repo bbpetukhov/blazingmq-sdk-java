@@ -14,12 +14,12 @@ RUN echo "/usr/local/bin/bmqbrkr /etc/local/bmq &" > /tmp/startup.sh
 # RUN echo "sleep 12345 &" > /tmp/startup.sh
 
 RUN echo "BROKER_PID=$!" >> /tmp/startup.sh
-RUN echo "sleep 15" >> /tmp/startup.sh
+RUN echo "sleep 33" >> /tmp/startup.sh
 RUN echo "kill -QUIT $BROKER_PID" >> /tmp/startup.sh
 RUN echo "sleep 5" >> /tmp/startup.sh
 RUN echo "cat /proc/sys/kernel/core_pattern" >> /tmp/startup.sh
 RUN echo "ls -lah /tmp/bmq-broker" >> /tmp/startup.sh
-RUN echo "cat /proc/sys/kernel/core_pattern > /tmp/bmq-broker/sample.txt" >> /tmp/startup.sh
+RUN echo "cat /proc/sys/kernel/core_pattern > /tmp/logs/sample.txt" >> /tmp/startup.sh
 RUN echo "ls -lah /tmp/bmq-broker" >> /tmp/startup.sh
 RUN chmod +x /tmp/startup.sh
 CMD ["/tmp/startup.sh"]
