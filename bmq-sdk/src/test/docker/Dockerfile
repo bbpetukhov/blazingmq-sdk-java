@@ -10,16 +10,16 @@ COPY config/ /etc/local/bmq/
 
 EXPOSE 30114
  
-RUN echo "/usr/local/bin/bmqbrkr /etc/local/bmq &" > /tmp/startup.sh
+RUN echo "cat /tmp/startup.sh > /tmp/logs/startlog.txt" > /tmp/startup.sh
+RUN echo "cat /proc/sys/kernel/core_pattern > /tmp/logs/sample.txt" >> /tmp/startup.sh
+RUN echo "ulimit -c > /tmp/logs/limits.txt" >> /tmp/startup.sh
+RUN echo "/usr/local/bin/bmqbrkr /etc/local/bmq &" >> /tmp/startup.sh
 # RUN echo "sleep 12345 &" > /tmp/startup.sh
 
 RUN echo "BROKER_PID=$!" >> /tmp/startup.sh
 RUN echo "sleep 99" >> /tmp/startup.sh
 # RUN echo "kill -QUIT $BROKER_PID" >> /tmp/startup.sh
 # RUN echo "sleep 99" >> /tmp/startup.sh
-RUN echo "cat /tmp/startup.sh > /tmp/logs/startlog.txt" >> /tmp/startup.sh
-RUN echo "cat /proc/sys/kernel/core_pattern > /tmp/logs/sample.txt" >> /tmp/startup.sh
-RUN echo "ulimit -c > /tmp/logs/limits.txt" >> /tmp/startup.sh
 RUN chmod +x /tmp/startup.sh
 CMD ["/tmp/startup.sh"]
 
